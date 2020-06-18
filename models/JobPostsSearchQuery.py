@@ -17,8 +17,9 @@ class JobPostsSearchQuery:
 
 
 class MultiMatchQuery:
-    def __init__(self, text):
-        self.multi_match = MultiMatchNestedQuery(text)
+    def __init__(self, text, fields, multi_match_query_type):
+        self.multi_match = MultiMatchNestedQuery(text=text, fields=fields,
+                                                 multi_match_query_type=multi_match_query_type)
 
     def serialize(self):
         return {
@@ -27,10 +28,10 @@ class MultiMatchQuery:
 
 
 class MultiMatchNestedQuery:
-    def __init__(self, text):
+    def __init__(self, text, fields, multi_match_query_type):
         self.text_query = text
-        self.fields = ["*"]
-        self.type = "bool_prefix"
+        self.fields = fields
+        self.type = multi_match_query_type
 
     def serialize(self):
         return {
@@ -47,7 +48,7 @@ class Bool:
                                required_work_experience=required_work_experience,
                                college_tier=college_tier,
                                posted_time_timestamp=posted_time_timestamp)
-        self.must = MultiMatchQuery(text=search_bar_text)
+        self.must = MultiMatchQuery(text=search_bar_text, fields=["*"], multi_match_query_type="bool_prefix")
 
     def serialize(self):
         return {
