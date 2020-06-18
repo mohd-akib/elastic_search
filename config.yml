@@ -1,0 +1,4 @@
+elastic_search:
+  host : localhost
+  port : 9200
+
