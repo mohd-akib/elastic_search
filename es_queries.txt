@@ -1,0 +1,224 @@
+GET /job_posts2/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "multi_match": {
+          "query": "software jobs in bangalore",
+          "fields": [
+            "*"
+          ],
+          "type": "bool_prefix"
+        }
+      },
+      "filter": [
+        {
+          "range": {
+            "posted_date_timestamp": {
+              "gte": 1591756300,
+              "lte": 1594348342
+            }
+          }
+        },
+        {
+          "geo_distance": {
+            "distance": "5km",
+            "lat_long": {
+              "lat": 12.91449,
+              "lon": 77.666512
+            }
+          }
+        },
+        {
+          "range": {
+            "required_work_experience": {
+              "gte": 3
+            }
+          }
+        },
+        {
+          "range": {
+            "college_tier": {
+              "lte": 3
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+self.college_tier = college_tier
+        self.industry = industry
+        self.required_work_experience = required_work_experience
+        self.company_name = company_name
+        self.pin_code = pin_code
+        self.city = city
+        self.state = state
+        self.country = country
+        self.company_address = company_address
+        self.posted_date = posted_date
+        self.expiry_date = expiry_date
+        self.lat_long = lat_long
+        self.keywords = keywords
+        self.description = description
+
+
+
+PUT /job_posts
+{
+    "mappings":{
+        "properties":{
+            "job_title":{"type": "text"},
+            "skills":{"type":"text"},
+            "college_tier":{"type":"integer"},
+            "industry":{"type":"text"},
+            "required_work_experience":{"type":"integer"},
+            "company_name":{"type":"text"},
+            "pin_code":{"type":"integer"},
+            "city":{"type":"text"},
+            "state":{"type":"text"},
+            "country":{"type":"text"},
+            "company_address":{"type":"text"},
+            "posted_date_timestamp":{"type":"integer"},
+            "expiry_date_timestamp":{"type":"integer"},
+            "lat_long":{"type":"geo_point"},
+            "keywords":{"type":"text"},
+            "description":{"type":"text"}
+        }
+    }
+}
+
+PUT /job_posts2/_doc/1
+{
+    "job_title":"software developer",
+    "skills":["java", "c", "python", "c++"],
+    "college_tier":3,
+    "industry":"healthcare",
+    "required_work_experience":3,
+    "company_name":"Medlife",
+    "pin_code":560027,
+    "city":"bangalore",
+    "state":"karnataka",
+    "country":"india",
+    "company_address":"Vaswani Centropolis, 5th & 6th Floor, Langford Rd, Bheemanna Garden, Shanti Nagar, Bengaluru, Karnataka 560027",
+    "posted_date_timestamp":1591756342,
+    "expiry_date_timestamp":1594348342,
+    "lat_long":{
+        "lat":38.673647,
+        "lon":-95.385883
+    },
+    "keywords":["software", "pharma", "healthcare", "java", "c", "python", "c++", "developer", "medlife", "J2EE", "bangalore"]
+}
+
+
+PUT /candidates
+{
+      "settings" : {
+        "number_of_shards" : 1,
+        "number_of_replicas" : 0
+    }
+
+    "mappings":{
+        "properties":{
+            "first_name":{"type": "text"},
+            "last_name":{"type":"text"},
+            "mobile_number":{"type":"text"}
+            "email_address":{"type":"text"},
+            "skills":{"type":"text"},
+            "current_address":{"type":"text"},
+            "work_experience":{"type":"integer"},
+            "current_domain":{"type":"text"},
+            "college_name":{"type":"text"}
+            "college_tier":{"type":"integer"},
+            "current_company":{"type":"text"},
+            "current_ctc":{"type":"integer"},
+            "availability":{"type":"text"},
+            "keywords":{"type":"text"},
+            "title":{"type":"text"},
+            "current_location_lat_long":{"type":"geo_point"},
+            "resume_link":{"type":"text"}
+            "current_location_pin_code":{"type":"integer"}
+        }
+    }
+}
+
+
+
+PUT /candidates/_doc/1
+{
+    "first_name":"Mohd",
+    "last_name":"Akib",
+    "mobile_number":"9304850614",
+    "email_address":"akibk001@gmail.com",
+    "skills":["java", "python", "c", "c++", "algorithm", "machine learning", "competitive programming"],
+    "current_address":"flat 403 building 670 hsr layout sector3 bangalore, india",
+    "work_experience":3,
+    "current_domain":"software development",
+    "college_name":"NIT Jamshedpur",
+    "college_tier":2,
+    "current_company":"Medlife",
+    "current_ctc":1000000,
+    "availability":"immediate",
+    "keywords":["software", "java", "python", "bangalore", "developer"],
+    "title":"software engineer",
+    "current_location_lat_long":{
+                                    "lat":12.911862,
+                                    "lon":77.644592
+                                 }
+    "resume_link":"www.medlife.com"
+    "current_location_pin_code":560102,
+}
+
+
+
+GET /candidates/_search
+{
+    "query": {
+    "bool": {
+      "must": {
+        "multi_match": {
+          "query": "java developer",
+          "fields": [
+            "skills", "current_address", "current_domain", "college_name", "college_tier", "keywords", "title","current_company"
+          ],
+          "type": "bool_prefix"
+        }
+      },
+      "filter": [
+        {
+          "range": {
+            "last_updated_timestamp": {
+              "gte":159248500
+            }
+          }
+        },
+        {
+          "geo_distance": {
+            "distance": "5km",
+            "lat_long": {
+              "lat": 12.91449,
+              "lon": 77.666512
+            }
+          }
+        },
+        {
+          "range": {
+            "required_work_experience": {
+              "gte": 2
+            }
+          }
+        },
+        {
+          "range": {
+            "college_tier": {
+              "lte": 3
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
